@@ -1,4 +1,4 @@
-require.config({
+requirejs.config({
   paths: {
     regardclient: '../regard-client'
   }
@@ -7,8 +7,8 @@ require.config({
 
 requirejs(["regardclient"], function(regard) {
 
-  test( "hello test", function() {
-    ok( 1 == "1", "Passed!" );
+  test( "initial time is set", function() {
+    ok( regard.initialTime > 0 , "initial time set to " + regard.initialTime );
   });
   
 });
