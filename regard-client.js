@@ -1,11 +1,8 @@
-define(function (require, exports, module) {
-    "use strict";
+define(function () {
 
-  var initialTime = Date.now();
-  
-  
-  
-  
-  exports.initialTime = initialTime;
-  exports.track
+  var _initialTime = Date.now();
+
+  return {
+    initialTime : _initialTime
+  }
 });
