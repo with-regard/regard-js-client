@@ -2,15 +2,22 @@ define(function (require, exports, module) {
   var moment = require("moment");
   var underscore = require("underscore");
   
+  var _createGuid = function(){
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
+        return v.toString(16);
+    });
+  };
+   
   var _timedEvents = [];
   var _events = [];
   var _submitEventsImmediately = true;
   var _regardURL = "http://api.withregard.io/track/v1/WithRegard/Test/event";
-  var _sessionId = "cdaa91fc-9c94-4826-9f2a-177be440f1ff";
-  var _userId = "F16CB994-00FF-4326-B0DB-F316F7EC2942";
-  
+  var _sessionId = _createGuid();
+  var _userId = _createGuid();  
   var _initialTime = moment();
   
+
   var _timedEvent = function(eventName, funcToTime){
     var begin = moment();
     funcToTime();
@@ -54,4 +61,10 @@ define(function (require, exports, module) {
   exports.timedEvents = _timedEvents;
   exports.events = _events;
   exports.trackEvent = _trackEvent;
+  exports.newSession = function() { 
+    _sessionId = _createGuid(); 
+    return _sessionId;
+  };
+  exports.setRegardURL = function(url){ _regardURL = url; };
+  exports.setUserId = function(userId) { _userId = userId; };
 });
