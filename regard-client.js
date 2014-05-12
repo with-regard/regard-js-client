@@ -6,6 +6,8 @@ define(function (require, exports, module) {
   var _events = [];
   var _submitEventsImmediately = true;
   var _regardURL = "http://api.withregard.io/track/v1/WithRegard/Test/event";
+  var _sessionId = "cdaa91fc-9c94-4826-9f2a-177be440f1ff";
+  var _userId = "F16CB994-00FF-4326-B0DB-F316F7EC2942";
   
   var _initialTime = moment();
   
@@ -23,6 +25,10 @@ define(function (require, exports, module) {
   };
   
   var _postEvent = function(event){
+    
+    event["session-id"] = _sessionId;
+    event["user-id"] = _userId;
+    
     var postEventRequest = new XMLHttpRequest();
     postEventRequest.open("POST", _regardURL, true);
     postEventRequest.send(JSON.stringify(event));
