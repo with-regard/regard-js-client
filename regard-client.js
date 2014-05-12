@@ -1,24 +1,34 @@
 define(function (require, exports, module) {
-
+  var moment = require("moment");
+  
   var _timedEvents = [];
+  var _events = [];
   
-  var _initialTime = Date.now();
+  var _initialTime = moment();
   
-  var _timeEvent = function(eventName, funcToTime){
-    var begin = Date.now();
+  var _timedEvent = function(eventName, funcToTime){
+    var begin = moment();
     funcToTime();
-    var end = Date.now();
+    var end = moment();
     
     _timedEvents.push({
       name : eventName,
-      startTime : begin,
-      endTime : end,
-      duration: end - begin
+      startTime : begin.valueOf(),
+      endTime : end.valueOf(),
+      duration: end.diff(begin)
     });
   };
   
-
+  var _trackEvent = function(eventName, props){
+    _events.push({
+      name : eventName,
+      properties: props
+    });
+  }
+    
   exports.initialTime = _initialTime;
-  exports.timeEvent = _timeEvent;
+  exports.trackTimedEvent = _timedEvent;
   exports.timedEvents = _timedEvents;
+  exports.events = _events;
+  exports.trackEvent = _trackEvent;
 });
