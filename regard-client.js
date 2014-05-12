@@ -1,8 +1,11 @@
 define(function (require, exports, module) {
   var moment = require("moment");
+  var underscore = require("underscore");
   
   var _timedEvents = [];
   var _events = [];
+  var _submitEventsImmediately = false;
+  var _regardURL = "http://api.withregard.io/track/v1/WithRegard/Test/event";
   
   var _initialTime = moment();
   
@@ -19,11 +22,25 @@ define(function (require, exports, module) {
     });
   };
   
+  var _postEvent = function(event){
+    var postEventRequest = new XMLHttpRequest();
+    postEventRequest.open("POST", _regardURL, true);
+    postEventRequest.send(JSON.stringify(event));
+  };
+   
   var _trackEvent = function(eventName, props){
-    _events.push({
-      name : eventName,
-      properties: props
-    });
+    var event = { 
+      name: eventName,
+    };           
+    
+    _.extend(event, props);
+    
+    if(_submitEventsImmediately){
+      _postEvent(event);
+    }
+    else{
+      _events.push(event);
+    }
   }
     
   exports.initialTime = _initialTime;

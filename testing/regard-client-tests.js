@@ -2,6 +2,7 @@ requirejs.config({
   paths: {
     regardclient: '../regard-client',
     moment: '../moment.min',
+    underscore: '../underscore-min'
   }
 });
 
