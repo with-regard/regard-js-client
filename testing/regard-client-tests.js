@@ -26,11 +26,10 @@ requirejs(["regardclient"], function(regard) {
   });
   
   test( "regular event test", function() {
-    regard.trackEvent("loaded", { errors: 0 });
+    var event = {};  
+    regard.trackEvent("loaded", { errors: 0 }, function(e){ event = e;} );
     
-    ok( regard.events[0].name === "loaded", "loaded event tracked");
+    ok( event.name === "loaded", "loaded event tracked");
   });
-  
-  
 });
 

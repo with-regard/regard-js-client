@@ -14,9 +14,9 @@ define(function (require, exports, module) {
   var _submitEventsImmediately = true;
   var _regardURL = "http://api.withregard.io/track/v1/WithRegard/Test/event";
   var _sessionId = _createGuid();
-  var _userId = _createGuid();  
+  var _userId = "F16CB994-00FF-4326-B0DB-F316F7EC2942"; 
   var _initialTime = moment();
-  
+  var _newSession = true;
 
   var _timedEvent = function(eventName, funcToTime){
     var begin = moment();
@@ -35,13 +35,16 @@ define(function (require, exports, module) {
     
     event["session-id"] = _sessionId;
     event["user-id"] = _userId;
+    event["new-session"] = _newSession;
     
     var postEventRequest = new XMLHttpRequest();
     postEventRequest.open("POST", _regardURL, true);
     postEventRequest.send(JSON.stringify(event));
+    
+    _newSession = false;
   };
    
-  var _trackEvent = function(eventName, props){
+  var _trackEvent = function(eventName, props, callback){
     var event = { 
       name: eventName,
     };           
@@ -54,6 +57,8 @@ define(function (require, exports, module) {
     else{
       _events.push(event);
     }
+    
+    callback(event);
   }
     
   exports.initialTime = _initialTime;
@@ -61,8 +66,9 @@ define(function (require, exports, module) {
   exports.timedEvents = _timedEvents;
   exports.events = _events;
   exports.trackEvent = _trackEvent;
-  exports.newSession = function() { 
-    _sessionId = _createGuid(); 
+  exports.startNewSession = function() { 
+    _sessionId = _createGuid();
+    _newSession = true;
     return _sessionId;
   };
   exports.setRegardURL = function(url){ _regardURL = url; };
