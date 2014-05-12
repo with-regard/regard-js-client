@@ -1,8 +1,9 @@
-define(function () {
+define(function (require, exports, module) {
 
   var _timedEvents = [];
   
   var _initialTime = Date.now();
+  
   var _timeEvent = function(eventName, funcToTime){
     var begin = Date.now();
     funcToTime();
@@ -17,9 +18,7 @@ define(function () {
   };
   
 
-  return {
-    initialTime : _initialTime,
-    timeEvent : _timeEvent,
-    timedEvents : _timedEvents
-  }
+  exports.initialTime = _initialTime;
+  exports.timeEvent = _timeEvent;
+  exports.timedEvents = _timedEvents;
 });
