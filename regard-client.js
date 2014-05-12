@@ -4,7 +4,7 @@ define(function (require, exports, module) {
   
   var _timedEvents = [];
   var _events = [];
-  var _submitEventsImmediately = false;
+  var _submitEventsImmediately = true;
   var _regardURL = "http://api.withregard.io/track/v1/WithRegard/Test/event";
   
   var _initialTime = moment();
