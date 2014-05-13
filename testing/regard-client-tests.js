@@ -51,11 +51,11 @@ requirejs(["regardclient"], function(regard) {
   asyncTest( "invalid URL test", function() {
     expect(1);
     
-    regard.setRegardURL("http://www.google.com");
+    regard.setRegardURL("http://www.zurpsop.com/");
     
     regard.trackEvent("loaded", { errors: 0 }).then(function(e){ 
     }, function(err){
-      ok(true);
+        ok(true, err.message);
        start();
     });
     
