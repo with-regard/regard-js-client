@@ -8,7 +8,11 @@ define(function (require, exports, module) {
         return v.toString(16);
     });
   };
-   
+  
+  var _createUndefinedError = function(functionName, identifier){
+    return new Error(functionName + "(): " + identifier + " must be defined");
+  }
+  
   var _timedEvents = [];
   var _events = [];
   var _submitEventsImmediately = true;
@@ -32,6 +36,16 @@ define(function (require, exports, module) {
   };
   
   var _postEvent = function(event){
+    if(event === undefined){
+      throw _createUndefinedError("_postEvent", "event");
+    }
+    if(_sessionId === undefined){
+      throw new Error("_postEvent(): A session id must be defined");
+    }
+    if(_userId === undefined){
+      throw new Error("_postEvent(): A user id must be defined");
+    }
+    
     
     event["session-id"] = _sessionId;
     event["user-id"] = _userId;
@@ -45,20 +59,27 @@ define(function (require, exports, module) {
   };
    
   var _trackEvent = function(eventName, props, callback){
-    var event = { 
-      name: eventName,
-    };           
-    
-    _.extend(event, props);
-    
-    if(_submitEventsImmediately){
-      _postEvent(event);
+    if(eventName){
+        var event = { 
+        name: eventName,
+      };           
+      
+      _.extend(event, props);
+      
+      if(_submitEventsImmediately){
+        _postEvent(event);
+      }
+      else{
+        _events.push(event);
+      }
+      
+      if(callback){
+        callback(event);
+      }
     }
     else{
-      _events.push(event);
+      throw _createUndefinedError("_trackEvent", "eventName");
     }
-    
-    callback(event);
   }
     
   exports.initialTime = _initialTime;

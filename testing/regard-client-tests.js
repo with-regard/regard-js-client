@@ -31,5 +31,12 @@ requirejs(["regardclient"], function(regard) {
     
     ok( event.name === "loaded", "loaded event tracked");
   });
+  
+  test( "undefined eventName throws test", function() {
+    throws( function() {
+      var event = {};  
+      regard.trackEvent(null, { errors: 0 }, function(e){ event = e;} ); 
+    });
+  });
 });
 
