@@ -1,7 +1,7 @@
 define(function (require, exports, module) {
   var moment = require("moment");
   var underscore = require("underscore");
-  var rsvp = require("rsvp");
+  require("rsvp");
   
   var _createGuid = function(){
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -37,25 +37,28 @@ define(function (require, exports, module) {
   };
   
   var _postEvent = function(event){
-    if(!event){
-      throw _createUndefinedError("_postEvent", "event");
-    }
-    if(!_sessionId){
-      throw _createUndefinedError("_postEvent", "A session Id");
-    }
-    if(!_userId){
-      throw _createUndefinedError("_postEvent", "A user Id");
-    }
+    return new RSVP.Promise(function(resolve, reject){
+      if(!event){
+        reject(_createUndefinedError("_postEvent", "event"));
+      }
+      if(!_sessionId){
+        reject(_createUndefinedError("_postEvent", "A session Id"));
+      }
+      if(!_userId){
+        reject(_createUndefinedError("_postEvent", "A user Id"));
+      }
     
-    event["session-id"] = _sessionId;
-    event["user-id"] = _userId;
-    event["new-session"] = _newSession;
-    
-    var postEventRequest = new XMLHttpRequest();
-    postEventRequest.open("POST", _regardURL, true);
-    postEventRequest.send(JSON.stringify(event));
-    
-    _newSession = false;
+      event["session-id"] = _sessionId;
+      event["user-id"] = _userId;
+      event["new-session"] = _newSession;
+      
+      var postEventRequest = new XMLHttpRequest();
+      postEventRequest.open("POST", _regardURL, true);
+      postEventRequest.send(JSON.stringify(event));
+      
+      _newSession = false;
+      resolve(event);
+    });
   };
    
   var _trackEvent = function(eventName, props){
@@ -67,17 +70,15 @@ define(function (require, exports, module) {
       var event = { 
         name: eventName,
       };           
-      
       _.extend(event, props);
       
       if(_submitEventsImmediately){
-        _postEvent(event);
+        _postEvent(event).then(resolve, reject);
       }
       else{
         _events.push(event);
+        resolve(event);
       }
-      
-      resolve(event);
     });   
   }
     
