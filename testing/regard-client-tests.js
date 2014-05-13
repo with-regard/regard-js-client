@@ -2,7 +2,8 @@ requirejs.config({
   paths: {
     regardclient: '../regard-client',
     moment: '../moment.min',
-    underscore: '../underscore-min'
+    underscore: '../underscore-min',
+    rsvp: '../rsvp'
   }
 });
 
@@ -25,18 +26,24 @@ requirejs(["regardclient"], function(regard) {
     ok( duration > 0, "recorded " + duration + " ms");
   });
   
-  test( "regular event test", function() {
-    var event = {};  
-    regard.trackEvent("loaded", { errors: 0 }, function(e){ event = e;} );
+  asyncTest( "regular event test", function() {
+    expect(1);
+     
+    regard.trackEvent("loaded", { errors: 0 }).then(function(e){ 
+       ok( e.name === "loaded", "loaded event tracked");
+       start();
+    }, function(err){});
     
-    ok( event.name === "loaded", "loaded event tracked");
   });
   
-  test( "undefined eventName throws test", function() {
-    throws( function() {
-      var event = {};  
-      regard.trackEvent(null, { errors: 0 }, function(e){ event = e;} ); 
-    });
+  asyncTest( "undefined eventName errors test", function() {
+    expect(1);
+
+    regard.trackEvent(null, { errors: 0 }).then(function(e){}, function(err){
+      ok(err.message, err.message);
+      start();
+    }); 
   });
+  
 });
 

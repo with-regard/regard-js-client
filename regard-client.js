@@ -1,6 +1,7 @@
 define(function (require, exports, module) {
   var moment = require("moment");
   var underscore = require("underscore");
+  var rsvp = require("rsvp");
   
   var _createGuid = function(){
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -36,16 +37,15 @@ define(function (require, exports, module) {
   };
   
   var _postEvent = function(event){
-    if(event === undefined){
+    if(!event){
       throw _createUndefinedError("_postEvent", "event");
     }
-    if(_sessionId === undefined){
-      throw new Error("_postEvent(): A session id must be defined");
+    if(!_sessionId){
+      throw _createUndefinedError("_postEvent", "A session Id");
     }
-    if(_userId === undefined){
-      throw new Error("_postEvent(): A user id must be defined");
+    if(!_userId){
+      throw _createUndefinedError("_postEvent", "A user Id");
     }
-    
     
     event["session-id"] = _sessionId;
     event["user-id"] = _userId;
@@ -58,9 +58,13 @@ define(function (require, exports, module) {
     _newSession = false;
   };
    
-  var _trackEvent = function(eventName, props, callback){
-    if(eventName){
-        var event = { 
+  var _trackEvent = function(eventName, props){
+    return new RSVP.Promise(function(resolve, reject){
+      if(!eventName){
+        reject(_createUndefinedError("_trackEvent", "eventName"));
+      }
+       
+      var event = { 
         name: eventName,
       };           
       
@@ -73,13 +77,8 @@ define(function (require, exports, module) {
         _events.push(event);
       }
       
-      if(callback){
-        callback(event);
-      }
-    }
-    else{
-      throw _createUndefinedError("_trackEvent", "eventName");
-    }
+      resolve(event);
+    });   
   }
     
   exports.initialTime = _initialTime;
