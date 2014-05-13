@@ -9,7 +9,7 @@ requirejs.config({
 
 
 requirejs(["regardclient"], function(regard) {
-  
+
   test( "initial time is set", function() {
     ok( regard.initialTime > 0 , "initial time set to " + regard.initialTime );
   });
@@ -45,5 +45,18 @@ requirejs(["regardclient"], function(regard) {
     }); 
   });
   
+  asyncTest( "invalid URL test", function() {
+    expect(1);
+    
+    regard.setRegardURL("http://www.google.com");
+    
+    regard.trackEvent("loaded", { errors: 0 }).then(function(e){ 
+    }, function(err){
+      ok(true);
+       start();
+    });
+    
+  });
+    
 });
 
