@@ -10,6 +10,9 @@ requirejs.config({
 
 requirejs(["regardclient"], function(regard) {
 
+  regard.setRegardURL("http://api.withregard.io/track/v1/WithRegard/Test/event");
+  regard.setUserId("F16CB994-00FF-4326-B0DB-F316F7EC2942");
+  
   test( "initial time is set", function() {
     ok( regard.initialTime > 0 , "initial time set to " + regard.initialTime );
   });

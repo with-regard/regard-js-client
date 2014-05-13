@@ -17,9 +17,9 @@ define(function (require, exports, module) {
   var _timedEvents = [];
   var _events = [];
   var _submitEventsImmediately = true;
-  var _regardURL = "http://api.withregard.io/track/v1/WithRegard/Test/event";
+  var _regardURL = "";
   var _sessionId = _createGuid();
-  var _userId = "F16CB994-00FF-4326-B0DB-F316F7EC2942"; 
+  var _userId = ""; 
   var _initialTime = moment();
   var _newSession = true;
 
