@@ -47,17 +47,26 @@ define(function (require, exports, module) {
       if(!_userId){
         reject(_createUndefinedError("_postEvent", "A user Id"));
       }
-    
+          
+      var postEventRequest = new XMLHttpRequest();
+      postEventRequest.onreadystatechange = function(){
+        if(postEventRequest.readyState === 4){
+          if(postEventRequest.status === 200){
+            _newSession = false;
+            resolve(event);
+          }
+          else{
+            reject(new Error(postEventRequest.statusText));
+          }
+        }
+      };
+      
       event["session-id"] = _sessionId;
       event["user-id"] = _userId;
       event["new-session"] = _newSession;
       
-      var postEventRequest = new XMLHttpRequest();
       postEventRequest.open("POST", _regardURL, true);
       postEventRequest.send(JSON.stringify(event));
-      
-      _newSession = false;
-      resolve(event);
     });
   };
    
@@ -67,7 +76,7 @@ define(function (require, exports, module) {
         reject(_createUndefinedError("_trackEvent", "eventName"));
       }
        
-      var event = { 
+      var event = {
         name: eventName,
       };           
       _.extend(event, props);
