@@ -64,20 +64,21 @@ define(function (require, exports, module) {
       event["session-id"] = _sessionId;
       event["user-id"] = _userId;
       event["new-session"] = _newSession;
+      event["time"] = moment().valueOf();
       
       postEventRequest.open("POST", _regardURL, true);
       postEventRequest.send(JSON.stringify(event));
     });
   };
    
-  var _trackEvent = function(eventName, props){
+  var _trackEvent = function(eventType, props){
     return new RSVP.Promise(function(resolve, reject){
-      if(!eventName){
-        reject(_createUndefinedError("_trackEvent", "eventName"));
+      if(!eventType){
+        reject(_createUndefinedError("_trackEvent", "eventType"));
       }
        
       var event = {
-        name: eventName,
+        "event-type": eventType,
       };           
       _.extend(event, props);
       

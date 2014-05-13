@@ -33,9 +33,10 @@ requirejs(["regardclient"], function(regard) {
     expect(1);
      
     regard.trackEvent("loaded", { errors: 0 }).then(function(e){ 
-       ok( e.name === "loaded", "loaded event tracked");
+       ok( e["event-type"] === "loaded", "loaded event tracked");
        start();
-    }, function(err){});
+    }, function(err){
+    });
     
   });
   
