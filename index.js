@@ -1,7 +1,6 @@
-define(function (require, exports, module) {
   var moment = require("moment");
-  var underscore = require("underscore");
-  require("rsvp");
+  var _ = require("underscore");
+  var rsvp = require("rsvp");
   
   var _createGuid = function(){
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -37,7 +36,7 @@ define(function (require, exports, module) {
   };
   
   var _postEvent = function(event){
-    return new RSVP.Promise(function(resolve, reject){
+    return new rsvp.Promise(function(resolve, reject){
       if(!event){
         reject(_createUndefinedError("_postEvent", "event"));
       }
@@ -72,7 +71,7 @@ define(function (require, exports, module) {
   };
    
   var _trackEvent = function(eventType, props){
-    return new RSVP.Promise(function(resolve, reject){
+    return new rsvp.Promise(function(resolve, reject){
       if(!eventType){
         reject(_createUndefinedError("_trackEvent", "eventType"));
       }
@@ -92,16 +91,15 @@ define(function (require, exports, module) {
     });   
   }
     
-  exports.initialTime = _initialTime;
-  exports.trackTimedEvent = _timedEvent;
-  exports.timedEvents = _timedEvents;
-  exports.events = _events;
-  exports.trackEvent = _trackEvent;
-  exports.startNewSession = function() { 
+  module.exports.initialTime = _initialTime;
+  module.exports.trackTimedEvent = _timedEvent;
+  module.exports.timedEvents = _timedEvents;
+  module.exports.events = _events;
+  module.exports.trackEvent = _trackEvent;
+  module.exports.startNewSession = function() { 
     _sessionId = _createGuid();
     _newSession = true;
     return _sessionId;
   };
-  exports.setRegardURL = function(url){ _regardURL = url; };
-  exports.setUserId = function(userId) { _userId = userId; };
-});
+  module.exports.setRegardURL = function(url){ _regardURL = url; };
+  module.exports.setUserId = function(userId) { _userId = userId; };

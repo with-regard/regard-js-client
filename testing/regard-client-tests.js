@@ -1,12 +1,8 @@
 requirejs.config({
   paths: {
-    regardclient: '../regard-client',
-    moment: '../moment.min',
-    underscore: '../underscore-min',
-    rsvp: '../rsvp'
+    regardclient: '../dist/regard',
   }
 });
-
 
 requirejs(["regardclient"], function(regard) {
 
@@ -36,6 +32,7 @@ requirejs(["regardclient"], function(regard) {
        ok( e["event-type"] === "loaded", "loaded event tracked");
        start();
     }, function(err){
+	    debugger;
     });
     
   });
