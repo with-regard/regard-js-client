@@ -18,8 +18,6 @@
   var _regardURL = "";
   var _sessionId = _createGuid();
   var _userId = ""; 
-  var _initialTime = moment();
-  var _newSession = true;
 
   var _timedEvent = function(eventName, funcToTime){
     var begin = moment();
@@ -73,7 +71,6 @@
         "event-type" : eventType,
         "session-id" : _sessionId,
         "user-id" : _userId,
-        "new-session" : _newSession,
         "time" : moment().valueOf()
       };           
       
@@ -98,7 +95,6 @@
   module.exports.trackEvent = _trackEvent;
   module.exports.startNewSession = function() { 
     _sessionId = _createGuid();
-    _newSession = true;
     return _sessionId;
   };
   module.exports.setRegardURL = function(url){ _regardURL = url; };
