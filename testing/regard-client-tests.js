@@ -32,7 +32,8 @@ requirejs(["regardclient"], function(regard) {
        ok( e["event-type"] === "loaded", "loaded event tracked");
        start();
     }, function(err){
-	    debugger;
+	    ok(false, err);
+        start();
     });
     
   });
@@ -40,7 +41,10 @@ requirejs(["regardclient"], function(regard) {
   asyncTest( "undefined eventName errors test", function() {
     expect(1);
 
-    regard.trackEvent(null, { errors: 0 }).then(function(e){}, function(err){
+    regard.trackEvent(null, { errors: 0 }).then(function(e){
+      ok(false, e);
+      start();
+    }, function(err){
       ok(err.message, err.message);
       start();
     }); 
