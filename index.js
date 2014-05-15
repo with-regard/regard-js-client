@@ -1,5 +1,4 @@
   var moment = require("moment");
-  var _ = require("underscore");
   var rsvp = require("rsvp");
   
   var _createGuid = function(){
@@ -40,18 +39,11 @@
       if(!event){
         reject(_createUndefinedError("_postEvent", "event"));
       }
-      if(!_sessionId){
-        reject(_createUndefinedError("_postEvent", "A session Id"));
-      }
-      if(!_userId){
-        reject(_createUndefinedError("_postEvent", "A user Id"));
-      }
           
       var postEventRequest = new XMLHttpRequest();
       postEventRequest.onreadystatechange = function(){
         if(postEventRequest.readyState === 4){
           if(postEventRequest.status === 200){
-            _newSession = false;
             resolve(event);
           }
           else{
@@ -59,11 +51,6 @@
           }
         }
       };
-      
-      event["session-id"] = _sessionId;
-      event["user-id"] = _userId;
-      event["new-session"] = _newSession;
-      event["time"] = moment().valueOf();
       
       postEventRequest.open("POST", _regardURL, true);
       postEventRequest.send(JSON.stringify(event));
@@ -75,11 +62,24 @@
       if(!eventType){
         reject(_createUndefinedError("_trackEvent", "eventType"));
       }
+      if(!_sessionId){
+        reject(_createUndefinedError("_postEvent", "A session Id"));
+      }
+      if(!_userId){
+        reject(_createUndefinedError("_postEvent", "A user Id"));
+      }
        
-      var event = {
-        "event-type": eventType,
+       var event = {
+        "event-type" : eventType,
+        "session-id" : _sessionId,
+        "user-id" : _userId,
+        "new-session" : _newSession,
+        "time" : moment().valueOf()
       };           
-      _.extend(event, props);
+      
+      if(props){
+        event["data"] = props;
+      } 
       
       if(_submitEventsImmediately){
         _postEvent(event).then(resolve, reject);
