@@ -88,7 +88,6 @@
     });   
   }
     
-  module.exports.initialTime = _initialTime;
   module.exports.trackTimedEvent = _timedEvent;
   module.exports.timedEvents = _timedEvents;
   module.exports.events = _events;
