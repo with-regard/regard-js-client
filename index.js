@@ -96,5 +96,9 @@
     _sessionId = _createGuid();
     return _sessionId;
   };
+  module.exports.createNewUser = function() {
+    _userId = _createGuid();
+    return _userId;
+  }
   module.exports.setRegardURL = function(url){ _regardURL = url; };
   module.exports.setUserId = function(userId) { _userId = userId; };
