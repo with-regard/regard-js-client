@@ -27,6 +27,7 @@
   "devDependencies": {
     "gulp-browserify": "^0.5.0",
     "gulp": "^3.6.2",
-    "browserify": "^4.1.2"
+    "browserify": "^4.1.2",
+    "node-qunit-phantomjs": "^0.2.1"
   }
 }
