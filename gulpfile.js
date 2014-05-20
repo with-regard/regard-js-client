@@ -3,16 +3,13 @@ var gulp = require('gulp');
 var qunit = require('node-qunit-phantomjs');
 
 //var browserify = require('gulp-browserify');
-var browserify = require('browserify');
 
 gulp.task('bundle', function() {
-	browserify('./index.js').require('./index.js', {expose: 'regard'})
-		.bundle()
+  var browserify = require('browserify');
+	browserify('./index.js')
+		.bundle({standalone: 'regardClient'})
 		.pipe(fs.createWriteStream(__dirname + '/dist/regard.js'));
 });
 
-gulp.task('test', function() {
-     qunit('./testing/run_tests.html');
-});
 
-gulp.task('default', ['bundle', 'test']);
+gulp.task('default', ['bundle']);
