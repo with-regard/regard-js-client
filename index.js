@@ -17,7 +17,7 @@
   var _submitEventsImmediately = true;
   var _regardURL = "";
   var _sessionId = _createGuid();
-  var _userId = ""; 
+  var _userId = _createGuid(); 
 
   var _timedEvent = function(eventName, funcToTime){
     var begin = moment();
@@ -102,3 +102,5 @@
   }
   module.exports.setRegardURL = function(url){ _regardURL = url; };
   module.exports.setUserId = function(userId) { _userId = userId; };
+  module.exports.getUserId = function(){ return _userId };
+  module.exports.getSessionId = function(){ return _sessionId; };
