@@ -37,18 +37,4 @@
        start();
      });
    });
-
-   asyncTest("errors when the URL is wrong", function () {
-     expect(1);
-
-     regard.setRegardURL("http://www.zurpsop.com/");
-
-     regard.trackEvent("loaded", {
-       errors: 0
-     }).then(function (e) {}, function (err) {
-       ok(true, err.message);
-       start();
-     });
-
-   });
  });

@@ -44,6 +44,7 @@ var _postEvent = function (event) {
   return new rsvp.Promise(function (resolve, reject) {
     if (!event) {
       reject(_createUndefinedError('_postEvent', 'event'));
+      return;
     }
     var postEventRequest = new XMLHttpRequest();
     postEventRequest.onreadystatechange = function () {
@@ -64,13 +65,17 @@ var _trackEvent = function (eventType, props) {
   return new rsvp.Promise(function (resolve, reject) {
     if (!eventType) {
       reject(_createUndefinedError('_trackEvent', 'eventType'));
+      return;
     }
     if (!_sessionId) {
       reject(_createUndefinedError('_postEvent', 'A session Id'));
+      return;
     }
     if (!_userId) {
       reject(_createUndefinedError('_postEvent', 'A user Id'));
+      return;
     }
+
     var event = {
       'event-type': eventType,
       'session-id': _sessionId,
