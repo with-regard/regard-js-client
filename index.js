@@ -91,6 +91,9 @@ var _trackEvent = function (eventType, props) {
 };
 
 module.exports.trackEvent = _trackEvent;
+module.exports.getUserId = function () {
+  return _userId;
+};
 module.exports.setOrganization = function (org) {
   _organization = org;
 };

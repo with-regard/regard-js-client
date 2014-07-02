@@ -24,6 +24,11 @@
 
    });
 
+   test("provides a userId", function () {
+     expect(1);
+     ok(regard.getUserId(), regard.getUserId());
+   });
+
    asyncTest("requires an eventName", function () {
      expect(1);
 
