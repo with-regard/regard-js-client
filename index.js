@@ -37,7 +37,7 @@ var _getRegardUrl = function () {
     _createUndefinedError('_getRegardUrl', '_product');
   };
 
-  return 'http://api.withregard.io/track/v1/' + _organization + '/' + _product + '/event';
+  return 'https://api.withregard.io/track/v1/' + _organization + '/' + _product + '/event';
 };
 
 var _postEvent = function (event) {
