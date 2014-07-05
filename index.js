@@ -1,5 +1,6 @@
 var moment = require('moment');
 var rsvp = require('rsvp');
+var _ = require('underscore');
 
 var _createGuid = function () {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -24,6 +25,7 @@ var _sessionId = _initId('sessionId', sessionStorage);
 var _userId = _initId('userId', localStorage);
 var _product = '';
 var _organization = '';
+var _defaultProps = {};
 
 var _createUndefinedError = function (functionName, identifier) {
   return new Error(functionName + '(): ' + identifier + ' must be defined');
@@ -85,6 +87,7 @@ var _trackEvent = function (eventType, props) {
     if (props) {
       event['data'] = props;
     }
+    _.extend(event['data'], _defaultProps);
 
     _postEvent(event).then(resolve, reject);
   });
@@ -94,9 +97,15 @@ module.exports.trackEvent = _trackEvent;
 module.exports.getUserId = function () {
   return _userId;
 };
+module.exports.getUserDataUrl = function() {
+  return 'https://www.withregard.io/dashboard/userevents/' + _organization + '/' + _product + '/' + _userId;
+}
 module.exports.setOrganization = function (org) {
   _organization = org;
 };
 module.exports.setProduct = function (prod) {
   _product = prod;
+};
+module.exports.setDefaultProperties = function(props){
+  _defaultProps = props;
 };

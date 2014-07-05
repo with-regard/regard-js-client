@@ -1,6 +1,6 @@
 {
   "name": "regard-js-client",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A JavaScript client for sending data to https://api.withregard.io",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,8 @@
   "homepage": "https://github.com/with-regard/regard-js-client",
   "dependencies": {
     "moment": "^2.6.0",
-    "rsvp": "^3.0.6"
+    "rsvp": "^3.0.6",
+    "underscore": "^1.6.0"
   },
   "devDependencies": {
     "gulp-browserify": "^0.5.0",
