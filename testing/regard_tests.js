@@ -24,9 +24,31 @@
 
    });
 
+   asyncTest("adds default properties to events", function () {
+     expect(1);
+
+     regard.setDefaultProperties({ version: 1 });
+
+     regard.trackEvent("loaded", {
+       errors: 0
+     }).then(function (e) {
+       ok(e["version"] === 1, "default prop added");
+       start();
+     }, function (err) {
+       ok(false, err);
+       start();
+     });
+
+   });
+
    test("provides a userId", function () {
      expect(1);
      ok(regard.getUserId(), regard.getUserId());
+   });
+
+   test("provides a user data url", function () {
+     expect(1);
+     ok(regard.getUserDataUrl(), regard.getUserDataUrl());
    });
 
    asyncTest("requires an eventName", function () {
