@@ -2,6 +2,18 @@ language: node_js
 node_js:
 - '0.10'
 
+env:
+  global:
+    secure: "dcb0Nka5GDkN+zqvwRgjJBWN29c2FfZeII9uiJJadKZ2p5RS7mxIGS7wh4edf6n9YxiI5QDDNDpp8KUJNEvl7R2jx9YZ/bHNk+PVetFGrgmh+MnAKSjzanxTWdhIgCH/H7BU2JoqvKUYQPLs09aPzoiHJ11j7BFat7ORSSdr5oU="
+
 install:
   - npm install --quiet
 script: gulp
+
+deploy:
+  provider: releases
+  api-key: $GITHUB_TOKEN
+  file: "dist/regard.js"
+  skip_cleanup: true
+  on:
+    tags: true
