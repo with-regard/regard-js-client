@@ -5,16 +5,24 @@ node_js:
 env:
   global:
     secure: "dcb0Nka5GDkN+zqvwRgjJBWN29c2FfZeII9uiJJadKZ2p5RS7mxIGS7wh4edf6n9YxiI5QDDNDpp8KUJNEvl7R2jx9YZ/bHNk+PVetFGrgmh+MnAKSjzanxTWdhIgCH/H7BU2JoqvKUYQPLs09aPzoiHJ11j7BFat7ORSSdr5oU="
+    secure: "aTXqM3cMLB1dzmoLHtji67KAcWN6r0Dmynb2exmP4HyvCHcTVjrjjNoSMQH3XMcEA+FA6RpCwnedXyBj7jtSse8gQldS5ypKof2WFNWozQ+JR9Y046b1qEdsyfPULFNV4LTUbE/Z8AXrTThkzEivDZ/hXhwI9BS7q58HX9JT3lU="
 
 install:
   - npm install --quiet
 script: gulp
 
 deploy:
-  provider: releases
-  api-key: $GITHUB_TOKEN
-  file: "dist/regard.js"
-  skip_cleanup: true
-  on:
-    tags: true
-    all_branches: true
+  - provider: releases
+      api-key: $GITHUB_TOKEN
+      file: "dist/regard.js"
+      skip_cleanup: true
+      on:
+        tags: true
+        all_branches: true
+  - provider: npm 
+      email: "kevin.boyle.accounts+npm@outlook.com"
+      api_key: $NPMTKN
+      skip_cleanup: true
+      on:
+        tags: true
+        all_branches: true
