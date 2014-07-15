@@ -7,26 +7,43 @@ var _createGuid = function () {
   return uuid.v4();
 };
 
-var _initId = function (idName, storage) {
+var _createUndefinedError = function (functionName, identifier) {
+  return new Error(functionName + '(): ' + identifier + ' must be defined');
+};
+
+var _initId = function (idName, storage, onNewId) {
   var id = storage.getItem(idName);
 
   if (!id) {
     id = _createGuid();
     storage.setItem(idName, id);
+    if(onNewId){
+      onNewId(id);
+    }
   }
 
   return id;
 };
 
-var _sessionId = _initId('sessionId', sessionStorage);
-var _userId = _initId('userId', localStorage);
+var _sessionId = '';
+var _userId = '';
 var _product = '';
 var _organization = '';
 var _defaultProps = {};
 
-var _createUndefinedError = function (functionName, identifier) {
-  return new Error(functionName + '(): ' + identifier + ' must be defined');
+var _reportNewUser = function(userId){
+  if(!userId){
+    _createUndefinedError('_reportNewUser', 'userId');
+  }
+  console.log('reporting new user');
+  _trackEvent(userId, _sessionId, 'user.new');
+}
+
+var _setupIds = function(){
+   _sessionId = _initId('sessionId', sessionStorage);
+   _userId = _initId('userId', localStorage, _reportNewUser);
 };
+
 
 var _getRegardUrl = function () {
   if (!_organization) {
@@ -60,25 +77,25 @@ var _postEvent = function (event) {
   });
 };
 
-var _trackEvent = function (eventType, props) {
+var _trackEvent = function (userId, sessionId, eventType, props) {
   return new rsvp.Promise(function (resolve, reject) {
     if (!eventType) {
       reject(_createUndefinedError('_trackEvent', 'eventType'));
       return;
     }
-    if (!_sessionId) {
-      reject(_createUndefinedError('_postEvent', 'A session Id'));
+    if (!userId) {
+      reject(_createUndefinedError('_trackEvent', 'userId'));
       return;
     }
-    if (!_userId) {
-      reject(_createUndefinedError('_postEvent', 'A user Id'));
+    if (!sessionId) {
+      reject(_createUndefinedError('_trackEvent', 'sessionId'));
       return;
     }
 
     var event = {
       'event-type': eventType,
-      'session-id': _sessionId,
-      'user-id': _userId,
+      'session-id': sessionId,
+      'user-id': userId,
       'time': moment().valueOf()
     };
     if (props) {
@@ -90,7 +107,12 @@ var _trackEvent = function (eventType, props) {
   });
 };
 
-module.exports.trackEvent = _trackEvent;
+module.exports.trackEvent = function(eventType, props){
+  if(!_sessionId || !_userId){
+    _setupIds();
+  }
+  return _trackEvent( _userId, _sessionId, eventType, props);
+} ;
 module.exports.getUserId = function () {
   return _userId;
 };
