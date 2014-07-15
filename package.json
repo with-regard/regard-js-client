@@ -1,6 +1,6 @@
 {
   "name": "regard-js-client",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "A JavaScript client for sending data to https://api.withregard.io",
   "main": "index.js",
   "scripts": {

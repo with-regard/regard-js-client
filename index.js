@@ -98,9 +98,7 @@ var _trackEvent = function (userId, sessionId, eventType, props) {
       'user-id': userId,
       'time': moment().valueOf()
     };
-    if (props) {
-      event['data'] = props;
-    }
+    event['data'] = props || {};
     _.extend(event['data'], _defaultProps);
 
     _postEvent(event).then(resolve, reject);
