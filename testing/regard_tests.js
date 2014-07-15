@@ -32,7 +32,7 @@
      regard.trackEvent("loaded", {
        errors: 0
      }).then(function (e) {
-       ok(e["version"] === 1, "default prop added");
+       ok(e.data.version === 1, 'added default property successfully');
        start();
      }, function (err) {
        ok(false, err);
